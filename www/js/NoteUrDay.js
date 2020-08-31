@@ -1,11 +1,76 @@
-function insertNote(noteElement)
+// Note: Caution: all None async functions will block the app proccess if some errors occured.
+// I know this :D. will be improved later.
+// I'm new in JS and RUST, and the deadline is this day so sorry if any errors happens.
+
+function insertNoteClient(noteElement)
 {
 	document.getElementById("notes").appendChild(noteElement);
 }
 
-function removeNote(noteElement)
+function insertNoteServer(title, content) {
+	var xhttp = new XMLHttpRequest();
+	
+	var insertionStatus = false;
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			insertionStatus = true;
+		} else if (this.readyState == 4 && this.status != 200) {
+			alert("An error occured when trying to insert a note to the server");
+			insertionStatus = false;
+		}
+	};
+
+	if (title != "") {
+		xhttp.open("POST", "NoteUrDay/write_note", false);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("title="+encodeURIComponent(title)+"&content="+encodeURIComponent(content));
+	}
+
+	return insertionStatus;
+}
+
+function insertNote(noteElement)
+{
+	const title = noteElement.getElementsByClassName("card-title")[0].innerHTML;
+	const content = noteElement.getElementsByClassName("card-text")[0].innerHTML;
+
+	if (insertNoteServer(title, content))
+		insertNoteClient(noteElement);
+}
+
+function removeNoteClient(noteElement)
 {
 	document.getElementById("notes").removeChild(noteElement);
+}
+
+function removeNoteServer(title)
+{
+	var xhttp = new XMLHttpRequest();
+
+	var deletionStatus = false;
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			deletionStatus = true;
+		} else if (this.readyState == 4 && this.status != 200) {
+			alert("An error occured when trying to delete a note.");
+			deletionStatus = false;
+		}
+	};
+	xhttp.open("POST", "NoteUrDay/delete_note", false);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("title=" + encodeURIComponent(title));
+
+	return deletionStatus;
+}
+
+function removeNote(noteElement)
+{
+	const title = noteElement.getElementsByClassName("card-title")[0].innerHTML;
+
+	if (removeNoteServer(title))
+		removeNoteClient(noteElement);
 }
 
 function createNoteElement(title, content)
@@ -48,29 +113,14 @@ function createNoteElement(title, content)
 	
 	nodeModContainer.appendChild(nodeEditIcon);
 
-	return noteElement;
-}
-
-function produceNote(title, content)
-{
-	let noteElement = createNoteElement(title, content);
-	insertNote(noteElement);
+	// Callback for delete icon
 	noteElement.getElementsByClassName("note-mod")[0]
 		.getElementsByClassName("fa-trash")[0]
 		.addEventListener("click", function(){
-			const title = noteElement.getElementsByClassName("card-title")[0].innerHTML;
-			
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					removeNote(noteElement);	
-				}
-			};
-			xhttp.open("POST", "NoteUrDay/delete_note", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("title=" + title);
+			removeNote(noteElement);	
 		});
 
+	// Callback for edit icon
 	noteElement.getElementsByClassName("note-mod")[0]
 		.getElementsByClassName("fa-edit")[0]
 		.addEventListener("click", function(){
@@ -79,6 +129,8 @@ function produceNote(title, content)
 			setNoteAssignee(assignee);
 			showNoteForm();
 		});
+
+	return noteElement;
 }
 
 function showNoteForm() {
@@ -91,6 +143,12 @@ function hideNoteForm() {
 	noteForm.style.display = "none";
 }
 
+function clearNoteForm() {
+	document.getElementById("note-form-title").value = "";
+	document.getElementById("note-form-content").value = "";
+	document.getElementById("previous_title").innerHTML = "";
+}
+
 function setNoteAssignee(assignee) {
 	document.getElementById("previous_title").innerHTML = assignee;
 }
@@ -101,12 +159,6 @@ function getNoteAssignee() {
 		return previous_title;
 	else
 		return "";
-}
-
-function clearNoteForm() {
-	document.getElementById("note-form-title").value = "";
-	document.getElementById("note-form-content").value = "";
-	document.getElementById("previous_title").innerHTML = "";
 }
 
 function getNoteWithTitle(title) {
@@ -126,43 +178,14 @@ function submitNoteForm() {
 	var newNoteTitle = document.getElementById("note-form-title").value;
 	var newNoteContent = document.getElementById("note-form-content").value;
 
-	var xhttp_for_del = new XMLHttpRequest();
-
-	xhttp_for_del.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200)
-		{
-			removeNote(getNoteWithTitle(assignee));
-		}
-	};
-
 	if (assignee != "")
-	{
-		xhttp_for_del.open("POST", "NoteUrDay/delete_note", true);
-		xhttp_for_del.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp_for_del.send("title="+assignee);
-	}
+		removeNote(getNoteWithTitle(assignee));
 
-	var xhttp_for_insert = new XMLHttpRequest();
-
-	xhttp_for_insert.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200)
-		{
-			produceNote(newNoteTitle, newNoteContent);
-		}
-	};
-
-	if (newNoteTitle != "")
-	{
-		xhttp_for_insert.open("POST", "NoteUrDay/write_note", true);
-		xhttp_for_insert.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp_for_insert.send("title="+encodeURIComponent(newNoteTitle)+"&content="+encodeURIComponent(newNoteContent));
-	}
+	let newNode = createNoteElement(newNoteTitle, newNoteContent);
+	insertNote(newNode);
 }
 
 const newNoteButton = document.getElementById("NewNotePrimary");
 newNoteButton.addEventListener("click", function() {
 	showNoteForm();	
 });
-
-
-
