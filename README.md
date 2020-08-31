@@ -1,3 +1,31 @@
+# Trianote
+This web app contains two sub apps (TrianglataCalculata and NoteUrDay) both are implemented using Rust (in the backend).
+
+TranglataCalculata is a simple and fast triangle area calculator.
+NoteUrDay is a simple and fast note maker.
+
+## Dependencies
+You must have these in your node_modules contained in pkg directory :
+- express.js
+- body-parse
+
+You can install it using:
+```
+npm install express --save
+npm install body-parser
+```
+after you build the rust library using:
+```
+ssvmup build
+```
+and after you changed your directory using:
+```
+cd pkg
+```
+after rust library is build
+
+# README.md from Upstream (forked) Repo
+
 # Getting started
 
 ![Build and test](https://github.com/second-state/ssvm-nodejs-starter/workflows/Build%20and%20test/badge.svg)
