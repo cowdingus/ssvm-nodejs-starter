@@ -164,7 +164,7 @@ function getNoteAssignee() {
 function getNoteWithTitle(title) {
 	var notes = document.getElementsByClassName("note");
 	for (const note of notes) {
-		if (note.getElementsByClassName("card-title")[0].title === title)
+		if (note.getElementsByClassName("card-title")[0].innerHTML === title)
 		{
 			return note;
 		}
@@ -179,10 +179,13 @@ function submitNoteForm() {
 	var newNoteContent = document.getElementById("note-form-content").value;
 
 	if (assignee != "")
-		removeNote(getNoteWithTitle(assignee));
+		removeNoteServer(assignee);
 
-	let newNode = createNoteElement(newNoteTitle, newNoteContent);
-	insertNote(newNode);
+	insertNoteServer(newNoteTitle, newNoteContent);
+	
+	let oldNote = getNoteWithTitle(getNoteAssignee());
+	oldNote.getElementsByClassName("card-title")[0].innerHTML = newNoteTitle;
+	oldNote.getElementsByClassName("card-text")[0].innerHTML = newNoteContent;
 }
 
 const newNoteButton = document.getElementById("NewNotePrimary");
