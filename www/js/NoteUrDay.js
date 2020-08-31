@@ -189,10 +189,32 @@ function submitNoteForm() {
 		let newNote = createNoteElement(newNoteTitle, newNoteContent);
 		insertNote(newNote);
 	}
+}
 
+function populateClientNotes() {
+	var notes = "";
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			notes = this.responseText;
+		}
+	};
+	xhttp.open("POST", "NoteUrDay/list_note", false);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send();
+
+	notes = JSON.parse(notes);
+	
+	for (const note of notes) {
+		let newNote = createNoteElement(note.title, note.content);
+		insertNoteClient(newNote);
+	}
 }
 
 const newNoteButton = document.getElementById("NewNotePrimary");
 newNoteButton.addEventListener("click", function() {
 	showNoteForm();	
 });
+
+populateClientNotes();
