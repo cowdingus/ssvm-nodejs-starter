@@ -1,6 +1,7 @@
 // Note: Caution: all None async functions will block the app proccess if some errors occured.
 // I know this :D. will be improved later.
-// I'm new in JS and RUST, and the deadline is this day so sorry if any errors happens.
+// I'm new in JS and RUST, and the deadline is this day so sorry if any errors happens or if you see some inprefection here in my code.
+// Definitely will learn more about both.
 
 function insertNoteClient(noteElement)
 {
