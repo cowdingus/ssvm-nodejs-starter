@@ -178,14 +178,18 @@ function submitNoteForm() {
 	var newNoteTitle = document.getElementById("note-form-title").value;
 	var newNoteContent = document.getElementById("note-form-content").value;
 
-	if (assignee != "")
+	if (assignee != "") {
 		removeNoteServer(assignee);
+		insertNoteServer(newNoteTitle, newNoteContent);
 
-	insertNoteServer(newNoteTitle, newNoteContent);
-	
-	let oldNote = getNoteWithTitle(getNoteAssignee());
-	oldNote.getElementsByClassName("card-title")[0].innerHTML = newNoteTitle;
-	oldNote.getElementsByClassName("card-text")[0].innerHTML = newNoteContent;
+		let oldNote = getNoteWithTitle(getNoteAssignee());
+		oldNote.getElementsByClassName("card-title")[0].innerHTML = newNoteTitle;
+		oldNote.getElementsByClassName("card-text")[0].innerHTML = newNoteContent;
+	} else {
+		let newNote = createNoteElement(newNoteTitle, newNoteContent);
+		insertNote(newNote);
+	}
+
 }
 
 const newNoteButton = document.getElementById("NewNotePrimary");
