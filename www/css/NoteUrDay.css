@@ -1,0 +1,51 @@
+@keyframes note-mod-anim {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}
+
+.note-form {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.note-form-content {
+	position: relative;
+	margin: auto;
+	padding: 0;
+	width: 90%;
+	height: 100%;
+	max-width: 1200px;
+}
+
+.note {
+	max-width: 16em;
+	min-width: 16em;
+	min-height: 30px;
+}
+
+.note:hover .note-mod {
+	animation-name: note-mod-anim;
+	animation-duration: 500ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+.note-mod {
+	opacity: 0;
+}
+
+.note-mod span {
+	opacity: 0.75;
+	min-height: 16px;
+}
+
+.note-mod span:hover {
+	opacity: 1;
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+													 integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
+													 crossorigin="anonymous">
+
+		<link rel="stylesheet" href="css/TrianglataCalculata.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+		<title>TrianglataCalculata - Simple Triangle Area Calculator</title>
+	</head>
+	<body>
+		<div class="container" style="width: 100vw; height: 100vh;">
+			<div class="row h-100">
+				<div class="col-sm-12 mt-auto">
+					<div class="mx-auto w-75 d-flex justify-content-center">
+						<h1 class="mr-2" style="display: block; color: orange;">TrianglataCalculata</h1>
+					</div>
+				</div>
+				<div class="col-sm-12 mb-auto">
+					<div class="mx-auto w-75 d-block justify-content-center">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">Height</div>
+							</div>
+							<input type="number" class="form-control" id="Height" name="Height">
+							<div class="input-group-prepend">
+								<div class="input-group-text">Base</div>
+							</div>
+							<input type="number" class="form-control" id="Base" name="Base">
+							<input type="submit" class="btn btn-primary ml-2" id="TriangleSubmit">
+						</div>
+						<div>
+							<small>Formula: (<var>Height</var>*<var>Base</var>) / 2</small>
+						</div>
+						<div>
+							<hr>
+							<p class="answer mb-0">The area is</p>
+							<h3 class="answer" id="AnswerField"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/TrianglataCalculata.js"></script>
+		
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+						integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" 
+						crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
+						integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" 
+						crossorigin="anonymous"></script>
+	</body>
+</html>
